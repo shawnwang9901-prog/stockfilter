@@ -3,7 +3,7 @@ name: Auto Stock Filter
 on:
   push:
    branches:
-     -main
+     - main
   schedule:
     # UTC07:30執行 (15:30的意思)
     - cron: '30 7 * * 1-5'
