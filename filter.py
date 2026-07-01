@@ -19,8 +19,8 @@ for stock_id in stock_list:
         today = df.iloc[-1]
         yesterday = df.iloc[-2]
         
-        # 主要篩選條件：今天量大於 3000 張，且股價突破 5日線
-        vol_chk = (today['Volume'] / 1000) > 3000
+        # 主要篩選條件：今天量大於 3000 (應急）張，且股價突破 5日線
+        vol_chk = (today['Volume'] / 1000) > 1000
         price_chk = (yesterday['Close'] < yesterday['MA5']) and (today['Close'] > today['MA5'])
         
         if vol_chk and price_chk:
