@@ -1,10 +1,13 @@
 name: Auto Stock Filter
 
 on:
+  push:
+  branches:
+    -main
   schedule:
-    # 每天 UTC 時間 07:30 執行 (等於台灣時間下午 15:30)
+    # UTC07:30執行 (15:30的意思)
     - cron: '30 7 * * 1-5'
-  workflow_dispatch: # 允許你隨時手動點擊執行
+  workflow_dispatch: #手動檔不怕被系統ban
 
 jobs:
   build:
