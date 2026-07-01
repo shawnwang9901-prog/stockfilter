@@ -4,7 +4,7 @@ from datetime import datetime
 
 # 1. 定義要監控的股票（可自行自由增減）
 stock_list = [
-    # === AI 伺服器與代工巨頭 ===
+    # AI 伺服器與代工巨頭 
     "2330.TW",   # 台積電
     "2317.TW",   # 鴻海
     "2454.TW",   # 聯發科
