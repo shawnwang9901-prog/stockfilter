@@ -4,7 +4,7 @@ from datetime import datetime
 
 # 1. 定義要監控的股票（可自行自由增減）
 stock_list = [
-    # === AI 伺服器與代工巨頭 ===
+    # AI 伺服器與代工巨頭 
     "2330.TW",   # 台積電
     "2317.TW",   # 鴻海
     "2454.TW",   # 聯發科
@@ -123,12 +123,12 @@ html_content = f"""
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card p-4 mb-4 bg-dark text-white text-center">
-                    <h1 class="display-5 fw-bold">選股∠( ᐛ 」∠)＿</h1>
+                    <h1 class="display-5 fw-bold">選股就該躺著選∠( ᐛ 」∠)＿</h1>
                     <p class="text-muted mb-0">更新時間：{update_time}</p>
                 </div>
                 
                 <div class="card p-4">
-                    <h3 class="mb-3 text-secondary">量化結果（自定義）</h3>
+                    <h3 class="mb-3 text-secondary">資料分析（自定義指標）</h3>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
