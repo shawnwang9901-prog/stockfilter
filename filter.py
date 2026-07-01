@@ -55,7 +55,7 @@ html_content = f"""
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card p-4 mb-4 bg-dark text-white text-center">
-                    <h1 class="display-5 fw-bold">⚡ 短線強勢股自動篩選系統</h1>
+                    <h1 class="display-5 fw-bold">高中生無聊搞出來的量化交易選股</h1>
                     <p class="text-muted mb-0">更新時間：{update_time}</p>
                 </div>
                 
