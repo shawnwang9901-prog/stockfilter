@@ -3,7 +3,75 @@ import pandas as pd
 from datetime import datetime
 
 # 1. 定義要監控的股票（可自行自由增減）
-stock_list = ["2330.TW", "2317.TW", "2454.TW", "2603.TW", "3037.TW", "2382.TW", "3231.TW"]
+stock_list = [
+    # === AI 伺服器與代工巨頭 ===
+    "2330.TW",   # 台積電
+    "2317.TW",   # 鴻海
+    "2454.TW",   # 聯發科
+    "2382.TW",   # 廣達
+    "3231.TW",   # 緯創
+    "2356.TW",   # 英業達
+    "2308.TW",   # 台達電
+    "2324.TW",   # 仁寶
+    "1582.TW",   # 信驊
+    
+    # === 散熱與機殼（短線波動極大） ===
+    "3017.TW",   # 奇鋐
+    "3324.TWO",  # 雙鴻
+    "3653.TW",   # 健策
+    "3013.TW",   # 晟銘電
+    "8210.TW",   # 藍天
+    "6125.TW",   # 廣運
+    
+    # === 矽光子與 CPO 概念股 ===
+    "3363.TWO",  # 上詮
+    "4979.TWO",  # 華星光
+    "3450.TW",   # 聯鈞
+    "6451.TW",   # 訊芯-KY
+    "3081.TWO",  # 聯亞
+    
+    # === 半導體設備與先進封裝（CoWoS） ===
+    "3131.TW",   # 弘塑
+    "3583.TW",   # 辛耘
+    "6187.TWO",  # 萬潤
+    "2486.TW",   # 一詮
+    "5443.TWO",  # 均豪
+    "2467.TW",   # 志聖
+    
+    # === 重電、綠能、線纜（主力最愛炒作題材） ===
+    "1513.TW",   # 中興電
+    "1519.TW",   # 華城
+    "1503.TW",   # 士電
+    "1605.TW",   # 華新
+    "1609.TW",   # 大亞
+    "6806.TW",   # 森崴能源
+    
+    # === 機器人與自動化概念 ===
+    "2359.TW",   # 所羅門
+    "9960.TW",   # 邁達特
+    "4583.TW",   # 台灣精銳
+    "2365.TW",   # 昆盈
+    
+    # === 熱門 IC 設計與 IP 股 ===
+    "3035.TW",   # 智原
+    "3661.TW",   # 世芯-KY
+    "3443.TW",   # 創意
+    "6643.M",    # M31 (註：部分系統代碼可能為 6643.TWO，若抓不到可改)
+    "8054.TWO",  # 安國
+    
+    # === 航運與傳統高成交量人氣股 ===
+    "2603.TW",   # 長榮
+    "2609.TW",   # 陽明
+    "2615.TW",   # 萬海
+    "2610.TW",   # 華航
+    "2618.TW",   # 長榮航
+    
+    # === 其他近期強勢人氣指標 ===
+    "2344.TW",   # 華邦電
+    "2408.TW",   # 南亞科
+    "2337.TW"    # 旺宏
+]
+
 qualified_stocks = []
 
 print("開始分析今日數據...")
@@ -19,8 +87,8 @@ for stock_id in stock_list:
         today = df.iloc[-1]
         yesterday = df.iloc[-2]
         
-        # 主要篩選條件：今天量大於 3000 張，且股價突破 5日線
-        vol_chk = (today['Volume'] / 1000) > 3000
+        # 主要篩選條件：今天量大於 3000 (應急）張，且股價突破 5日線
+        vol_chk = (today['Volume'] / 1000) > 1000
         price_chk = (yesterday['Close'] < yesterday['MA5']) and (today['Close'] > today['MA5'])
         
         if vol_chk and price_chk:
@@ -55,7 +123,7 @@ html_content = f"""
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card p-4 mb-4 bg-dark text-white text-center">
-                    <h1 class="display-5 fw-bold">⚡ 短線強勢股自動篩選系統</h1>
+                    <h1 class="display-5 fw-bold">高中生無聊搞出來的量化交易選股</h1>
                     <p class="text-muted mb-0">更新時間：{update_time}</p>
                 </div>
                 
