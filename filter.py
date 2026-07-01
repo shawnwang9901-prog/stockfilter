@@ -123,7 +123,7 @@ html_content = f"""
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card p-4 mb-4 bg-dark text-white text-center">
-                    <h1 class="display-5 fw-bold">選股∠( ᐛ 」∠)＿</h1>
+                    <h1 class="display-5 fw-bold">選股就該躺著選∠( ᐛ 」∠)＿</h1>
                     <p class="text-muted mb-0">更新時間：{update_time}</p>
                 </div>
                 
