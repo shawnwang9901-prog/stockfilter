@@ -128,7 +128,7 @@ html_content = f"""
                 </div>
                 
                 <div class="card p-4">
-                    <h3 class="mb-3 text-secondary">量化結果（自定義）</h3>
+                    <h3 class="mb-3 text-secondary">資料分析（自定義指標）</h3>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
