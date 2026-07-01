@@ -71,6 +71,7 @@ stock_list = [
     "2408.TW",   # 南亞科
     "2337.TW"    # 旺宏
 ]
+
 qualified_stocks = []
 
 print("開始分析今日數據...")
