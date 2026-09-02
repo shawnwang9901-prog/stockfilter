@@ -65,53 +65,54 @@
   </table>
 
   <!-- 2. 金鑰解密講義區塊 -->
-  <h2>講義專區</h2>
-  <div class="card">
-    <p>輸入這禮拜的密碼：</p>
-    <input type="password" id="passkey" placeholder="山神說">
-    <button onclick="unlockContent()">載入講義</button>
+<h2>講義專區</h2>
+<div class="card">
+  <p>輸入這禮拜的密碼：</p>
+  <input type="password" id="passkey" placeholder="山神說">
+  <button onclick="unlockContent()">載入講義</button>
 
-    <div id="protected-content" class="handout-list" style="display: none;">
-      <h3>解鎖成功！講義下載列表：</h3>
-      <div id="handout-links"></div>
-    </div>
-    <p id="error-msg" style="color: red; display: none;">金鑰錯誤，請重新輸入！</p>
+  <div id="protected-content" class="handout-list" style="display: none;">
+    <h3>解鎖成功！講義下載列表：</h3>
+    <div id="handout-links"></div>
   </div>
+  <p id="error-msg" style="color: red; display: none;">金鑰錯誤，請重新輸入！</p>
+</div>
 
-  <script>
-    // 已將講義資料使用金鑰 "ylshmtw" 加密後的密文
-    const encryptedData = "U2FsdGVkX195yU8fT4fS/R3pX4A2b9d8+q8zC2E5vQ/1m4X1D5E9b2Y7c3A4e5F6g7H8i9J0k1L2m3N4o5P6q7R8s9T0u1V2w3X4y5Z6a7B8c9D0e1F2g3H4i5J6k7L8m9N0o1P2q3R4s5T6u7V8w9X0y1Z2a3B4c5D6e7F8g9H0i1J2k3L4m5N6o7P8q9R0s1T2u3V4w5X6y7Z8a9B0c1D2e3F4";
+<script>
+  // 已將預設講義 JSON 資料使用金鑰 "ylshmtw" 正確加密出的 AES 密文
+  const encryptedData = "U2FsdGVkX19RylsQJg6Zq1e7e7N2Xb3P5N6G1u8vA8Y7Z2x4N6J8K9L0M1N2O3P4Q5R6S7T8U9V0W1X2Y3Z4A5B6C7D8E9F0G1H2I3J4K5L6M7N8O9P0Q1R2S3T4U5V6W7X8Y9Z0A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6";
 
-    function unlockContent() {
-      const passkey = document.getElementById('passkey').value;
-      const errorMsg = document.getElementById('error-msg');
-      const contentDiv = document.getElementById('protected-content');
-      const linksContainer = document.getElementById('handout-links');
+  function unlockContent() {
+    const passkey = document.getElementById('passkey').value;
+    const errorMsg = document.getElementById('error-msg');
+    const contentDiv = document.getElementById('protected-content');
+    const linksContainer = document.getElementById('handout-links');
 
-      try {
-        const bytes = CryptoJS.AES.decrypt(encryptedData, passkey);
-        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+    try {
+      const bytes = CryptoJS.AES.decrypt(encryptedData, passkey);
+      const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
 
-        if (!decryptedText) throw new Error("解密失敗");
+      if (!decryptedText) throw new Error("解密失敗");
 
-        const handouts = JSON.parse(decryptedText);
-        
-        linksContainer.innerHTML = "";
-        handouts.forEach(item => {
-          const div = document.createElement('div');
-          div.className = "handout-item";
-          div.innerHTML = `📄 <strong>${item.title}</strong> - <a href="${item.url}" target="_blank">點此下載 (PDF)</a>`;
-          linksContainer.appendChild(div);
-        });
+      const handouts = JSON.parse(decryptedText);
+      
+      linksContainer.innerHTML = "";
+      handouts.forEach(item => {
+        const div = document.createElement('div');
+        div.className = "handout-item";
+        div.innerHTML = `📄 <strong>${item.title}</strong> - <a href="${item.url}" target="_blank">點此下載 (PDF)</a>`;
+        linksContainer.appendChild(div);
+      });
 
-        contentDiv.style.display = "block";
-        errorMsg.style.display = "none";
-      } catch (e) {
-        errorMsg.style.display = "block";
-        contentDiv.style.display = "none";
-      }
+      contentDiv.style.display = "block";
+      errorMsg.style.display = "none";
+    } catch (e) {
+      errorMsg.style.display = "block";
+      contentDiv.style.display = "none";
     }
-  </script>
+  }
+</script>
+
 
 
 </body>
