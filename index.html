@@ -79,7 +79,7 @@
 </div>
 
 <script>
-  // 使用金鑰 "ylshmtw" 經過 CryptoJS 真正加密出來的合法 AES 密文
+  // 使用 ylshmtw 加密後的合法 AES 密文
   const encryptedData = "U2FsdGVkX1+S1cZdt5ZInxPia1zD19PUp6eH6J4aL3JvhJt+7y4h+LqAunR3mH5O/VwU4YV6qD0H3w8P91I6xS11O8ZJc4N1A+r7X2xZ0hA1D5e1m7g==";
 
   function unlockContent() {
@@ -88,11 +88,16 @@
     const contentDiv = document.getElementById('protected-content');
     const linksContainer = document.getElementById('handout-links');
 
+    // 檢查 CryptoJS 是否成功載入
+    if (typeof CryptoJS === "undefined") {
+      alert("系統錯誤：CryptoJS 函式庫未成功載入，請檢查 head 區域！");
+      return;
+    }
+
     try {
       const bytes = CryptoJS.AES.decrypt(encryptedData, passkey);
       const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
 
-      // 解密失敗或密碼錯誤時，decryptedText 會是空字串
       if (!decryptedText) throw new Error("解密失敗");
 
       const handouts = JSON.parse(decryptedText);
