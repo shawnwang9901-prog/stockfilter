@@ -82,7 +82,7 @@
   </div>
 
   <script>
-    // 原生解密邏輯：利用字串互斥掩碼混淆，不需要下載任何 CryptoJS 外掛
+    // 原生解密邏輯：利用字串掩碼混淆，100% 瀏覽器相容且免載入外部庫
     function nativeDecrypt(cipherB64, key) {
       try {
         const raw = atob(cipherB64);
@@ -105,10 +105,10 @@
       const contentDiv = document.getElementById('protected-content');
       const linksContainer = document.getElementById('handout-links');
 
-      // 直接使用瀏覽器內建 JS 解密
+      // 使用內建原生解密
       const decryptedText = nativeDecrypt(encryptedData, passkey);
 
-      // 驗證解密內容是否為正確的 JSON 講義格式
+      // 驗證解密結果是否為 JSON 陣列格式
       if (decryptedText && decryptedText.trim().startsWith('[')) {
         try {
           const handouts = JSON.parse(decryptedText);
@@ -127,7 +127,7 @@
         } catch (e) {}
       }
 
-      // 解密失敗時顯示錯誤
+      // 解密失敗時顯示錯誤訊息
       errorMsg.style.display = "block";
       contentDiv.style.display = "none";
     }
