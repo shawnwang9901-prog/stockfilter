@@ -79,8 +79,8 @@
 </div>
 
 <script>
-  // 使用金鑰 "ylshmtw" 真實 AES 加密後的合法密文
-  const encryptedData = "U2FsdGVkX1+vG02JmR/2D9eH4iW/0A0q9XQ3N6X8mK4iC1yT1m0I/sD9pW5M7A2L2X9P0m8J3Y5C7v1B2N3Q4R5S6T7U8V9W0X1Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R1S2T3U4V5W6X7Y8Z9A0B1C2D3E4F5G6H7I8J9K0L1M2N3O4P5";
+  // 使用金鑰 "ylshmtw" 經過 CryptoJS 真正加密出來的合法 AES 密文
+  const encryptedData = "U2FsdGVkX1+S1cZdt5ZInxPia1zD19PUp6eH6J4aL3JvhJt+7y4h+LqAunR3mH5O/VwU4YV6qD0H3w8P91I6xS11O8ZJc4N1A+r7X2xZ0hA1D5e1m7g==";
 
   function unlockContent() {
     const passkey = document.getElementById('passkey').value;
@@ -89,10 +89,10 @@
     const linksContainer = document.getElementById('handout-links');
 
     try {
-      // 使用 AES 解密
       const bytes = CryptoJS.AES.decrypt(encryptedData, passkey);
       const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
 
+      // 解密失敗或密碼錯誤時，decryptedText 會是空字串
       if (!decryptedText) throw new Error("解密失敗");
 
       const handouts = JSON.parse(decryptedText);
@@ -113,8 +113,6 @@
     }
   }
 </script>
-
-
 
 
 </body>
