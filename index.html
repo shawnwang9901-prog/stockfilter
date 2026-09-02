@@ -4,19 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>宜中數學讀書會</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 30px auto; padding: 0 20px; line-height: 1.6; }
-    h1, h2 { color: #1a365d; }
-    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-    th { background-color: #f7fafc; }
-    .card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; margin-top: 20px; }
-    input[type="password"] { padding: 8px; width: 200px; margin-right: 10px; }
-    button { padding: 8px 16px; background-color: #3182ce; color: white; border: none; border-radius: 4px; cursor: pointer; }
-    button:hover { background-color: #2b6cb0; }
-    .handout-list { margin-top: 15px; }
-    .handout-item { margin: 8px 0; }
-  </style>
+<style>
+  body { 
+    font-family: Arial, sans-serif; 
+    max-width: 800px; 
+    margin: 30px auto; 
+    padding: 0 20px; 
+    line-height: 1.6;
+    color: #ffffff;
+
+    /* 關鍵：讀取你剛剛上傳的圖片檔名，並疊加半透明深色遮罩確保文字清晰 */
+    background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('-Pngtree--dynamic futuristic network abstract high_15270104.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  h1, h2 { color: #60a5fa; }
+  
+  /* 表格透明玻璃感 */
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(255, 255, 255, 0.1); border-radius: 8px; overflow: hidden; backdrop-filter: blur(5px); }
+  th, td { border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px; text-align: left; }
+  th { background-color: rgba(30, 58, 138, 0.5); color: #93c5fd; }
+  
+  /* 卡片毛玻璃效果 */
+  .card { 
+    background: rgba(15, 23, 42, 0.75); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    padding: 20px; 
+    border-radius: 12px; 
+    margin-top: 20px; 
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  input[type="password"] { 
+    padding: 10px; 
+    width: 200px; 
+    margin-right: 10px; 
+    border-radius: 6px; 
+    border: 1px solid #475569;
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  button { 
+    padding: 10px 18px; 
+    background-color: #2563eb; 
+    color: white; 
+    border: none; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: bold;
+  }
+  button:hover { background-color: #1d4ed8; }
+
+  .handout-list { margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
+  .handout-item { margin: 10px 0; font-size: 1.05em; }
+  .handout-item a { color: #38bdf8; text-decoration: none; font-weight: bold; }
+  .handout-item a:hover { text-decoration: underline; }
+</style>
+
 </head>
 <body>
 
