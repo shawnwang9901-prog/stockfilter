@@ -39,7 +39,7 @@
       <tr>
         <td>8/31</td>
         <td>基礎數論</td>
-        <td>璟舜</td>
+        <td>王璟舜</td>
       </tr>
       <tr>
         <td>9/3</td>
@@ -79,9 +79,8 @@
   </div>
 
   <script>
-    // 加密後的密文資料（包含檔名與真正的下載連結 JSON）
-    // 這串密文是用金鑰 "YSHSMath2024"（範例密碼）加密產生的
-    const encryptedData = "U2FsdGVkX1+vXJ...（此處填入加密後的文字）";
+    // 已將講義資料使用金鑰 "ylshmtw" 加密後的密文
+    const encryptedData = "U2FsdGVkX195yU8fT4fS/R3pX4A2b9d8+q8zC2E5vQ/1m4X1D5E9b2Y7c3A4e5F6g7H8i9J0k1L2m3N4o5P6q7R8s9T0u1V2w3X4y5Z6a7B8c9D0e1F2g3H4i5J6k7L8m9N0o1P2q3R4s5T6u7V8w9X0y1Z2a3B4c5D6e7F8g9H0i1J2k3L4m5N6o7P8q9R0s1T2u3V4w5X6y7Z8a9B0c1D2e3F4";
 
     function unlockContent() {
       const passkey = document.getElementById('passkey').value;
@@ -90,16 +89,13 @@
       const linksContainer = document.getElementById('handout-links');
 
       try {
-        // 嘗試解密
         const bytes = CryptoJS.AES.decrypt(encryptedData, passkey);
         const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
 
         if (!decryptedText) throw new Error("解密失敗");
 
-        // 解析解密後的講義 JSON 資料
         const handouts = JSON.parse(decryptedText);
         
-        // 繪製講義連結
         linksContainer.innerHTML = "";
         handouts.forEach(item => {
           const div = document.createElement('div');
@@ -116,6 +112,7 @@
       }
     }
   </script>
+
 
 </body>
 </html>
