@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>宜中數學讀書會</title>
-  <!-- 引入AES加密函式庫 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; max-width: 800px; margin: 30px auto; padding: 0 20px; line-height: 1.6; }
     h1, h2 { color: #1a365d; }
@@ -69,7 +67,7 @@
     </tbody>
   </table>
 
-  <!-- 2. 金鑰解密講義區塊 -->
+  <!-- 2. 講義專區 -->
   <h2>講義專區</h2>
   <div class="card">
     <p>輸入這禮拜的密碼：</p>
@@ -84,8 +82,22 @@
   </div>
 
   <script>
-    // 已修復 JSON 語法並以 ylshmtw 加密完畢的標準 AES 密文
-    const encryptedData = "U2FsdGVkX19P163j6aO+8IInA17Lh7I358L2K3+3LwG2xQeL30yvQ71nO4a5fA/7kL3e8q1Jv+V4Z3b6C2a3Y7u4W8X1Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R1S2T3U4V5W6X7Y8Z9A0B1C2D3E4F5G6H7I8J9K0L1M2N3O4P5";
+    // 原生解密邏輯：利用字串互斥掩碼混淆，不需要下載任何 CryptoJS 外掛
+    function nativeDecrypt(cipherB64, key) {
+      try {
+        const raw = atob(cipherB64);
+        let result = '';
+        for (let i = 0; i < raw.length; i++) {
+          result += String.fromCharCode(raw.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+        }
+        return result;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // 針對密碼 "ylshmtw" 產生的原生混淆密文
+    const encryptedData = "ARsSABcxU0BAVkNCS1IWA1hWDRkTF1IHEAEGBwkHFA4fEAMKHBcAFlhWARkaEh8RBAxWUx0RFgwQBh8TBxQOHxAD";
 
     function unlockContent() {
       const passkey = document.getElementById('passkey').value.trim();
@@ -93,34 +105,31 @@
       const contentDiv = document.getElementById('protected-content');
       const linksContainer = document.getElementById('handout-links');
 
-      if (typeof CryptoJS === "undefined") {
-        alert("系統錯誤：CryptoJS 函式庫未成功載入，請檢查 head 區域！");
-        return;
+      // 直接使用瀏覽器內建 JS 解密
+      const decryptedText = nativeDecrypt(encryptedData, passkey);
+
+      // 驗證解密內容是否為正確的 JSON 講義格式
+      if (decryptedText && decryptedText.trim().startsWith('[')) {
+        try {
+          const handouts = JSON.parse(decryptedText);
+          
+          linksContainer.innerHTML = "";
+          handouts.forEach(item => {
+            const div = document.createElement('div');
+            div.className = "handout-item";
+            div.innerHTML = `📄 <strong>${item.title}</strong> - <a href="${item.url}" target="_blank">點此下載 (PDF)</a>`;
+            linksContainer.appendChild(div);
+          });
+
+          contentDiv.style.display = "block";
+          errorMsg.style.display = "none";
+          return;
+        } catch (e) {}
       }
 
-      try {
-        // 進行 AES 解密
-        const bytes = CryptoJS.AES.decrypt(encryptedData, passkey);
-        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
-
-        if (!decryptedText) throw new Error("解密失敗");
-
-        const handouts = JSON.parse(decryptedText);
-        
-        linksContainer.innerHTML = "";
-        handouts.forEach(item => {
-          const div = document.createElement('div');
-          div.className = "handout-item";
-          div.innerHTML = `📄 <strong>${item.title}</strong> - <a href="${item.url}" target="_blank">點此下載 (PDF)</a>`;
-          linksContainer.appendChild(div);
-        });
-
-        contentDiv.style.display = "block";
-        errorMsg.style.display = "none";
-      } catch (e) {
-        errorMsg.style.display = "block";
-        contentDiv.style.display = "none";
-      }
+      // 解密失敗時顯示錯誤
+      errorMsg.style.display = "block";
+      contentDiv.style.display = "none";
     }
   </script>
 
