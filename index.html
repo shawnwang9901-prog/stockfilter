@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>宜中數學讀書會 - 課表與講義管理</title>
+  <!-- 引入AES加密函式庫 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 30px auto; padding: 0 20px; line-height: 1.6; }
+    h1, h2 { color: #1a365d; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+    th { background-color: #f7fafc; }
+    .card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; margin-top: 20px; }
+    input[type="password"] { padding: 8px; width: 200px; margin-right: 10px; }
+    button { padding: 8px 16px; background-color: #3182ce; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background-color: #2b6cb0; }
+    .handout-list { margin-top: 15px; }
+    .handout-item { margin: 8px 0; }
+  </style>
+</head>
+<body>
+
+  <h1>宜中數學讀書會</h1>
+  <p>歡迎來到讀書會網站，這裡提供最新的課表進度與加密講義下載。</p>
+
+  <!-- 1. 課表區塊 -->
+  <h2>📅 讀書會課表</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>週次</th>
+        <th>日期</th>
+        <th>主題內容</th>
+        <th>主講人</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>第 01 週</td>
+        <td>10/05</td>
+        <td>數論基礎與多項式定理</td>
+        <td>同學 A</td>
+      </tr>
+      <tr>
+        <td>第 02 週</td>
+        <td>10/12</td>
+        <td>三角函數與複數平面應用</td>
+        <td>同學 B</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 2. 金鑰解密講義區塊 -->
+  <h2>🔐 講義專區</h2>
+  <div class="card">
+    <p>請輸入讀書會成員通行密碼解鎖講義：</p>
+    <input type="password" id="passkey" placeholder="輸入金鑰/密碼">
+    <button onclick="unlockContent()">載入講義</button>
+
+    <div id="protected-content" class="handout-list" style="display: none;">
+      <h3>解鎖成功！講義下載列表：</h3>
+      <div id="handout-links"></div>
+    </div>
+    <p id="error-msg" style="color: red; display: none;">金鑰錯誤，請重新輸入！</p>
+  </div>
+
+  <script>
+    // 加密後的密文資料（包含檔名與真正的下載連結 JSON）
+    // 這串密文是用金鑰 "YSHSMath2024"（範例密碼）加密產生的
+    const encryptedData = "U2FsdGVkX1+vXJ...（此處填入加密後的文字）";
+
+    function unlockContent() {
+      const passkey = document.getElementById('passkey').value;
+      const errorMsg = document.getElementById('error-msg');
+      const contentDiv = document.getElementById('protected-content');
+      const linksContainer = document.getElementById('handout-links');
+
+      try {
+        // 嘗試解密
+        const bytes = CryptoJS.AES.decrypt(encryptedData, passkey);
+        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+
+        if (!decryptedText) throw new Error("解密失敗");
+
+        // 解析解密後的講義 JSON 資料
+        const handouts = JSON.parse(decryptedText);
+        
+        // 繪製講義連結
+        linksContainer.innerHTML = "";
+        handouts.forEach(item => {
+          const div = document.createElement('div');
+          div.className = "handout-item";
+          div.innerHTML = `📄 <strong>${item.title}</strong> - <a href="${item.url}" target="_blank">點此下載 (PDF)</a>`;
+          linksContainer.appendChild(div);
+        });
+
+        contentDiv.style.display = "block";
+        errorMsg.style.display = "none";
+      } catch (e) {
+        errorMsg.style.display = "block";
+        contentDiv.style.display = "none";
+      }
+    }
+  </script>
+
+</body>
+</html>
