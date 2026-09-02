@@ -81,57 +81,27 @@
     <p id="error-msg" style="color: red; display: none;">金鑰錯誤，請重新輸入！</p>
   </div>
 
-  <script>
-    // 原生解密邏輯：利用字串掩碼混淆，100% 瀏覽器相容且免載入外部庫
-    function nativeDecrypt(cipherB64, key) {
-      try {
-        const raw = atob(cipherB64);
-        let result = '';
-        for (let i = 0; i < raw.length; i++) {
-          result += String.fromCharCode(raw.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-        }
-        return result;
-      } catch (e) {
-        return null;
-      }
-    }
+<script>
+  function unlockContent() {
+    const passkey = document.getElementById('passkey').value.trim();
+    const errorMsg = document.getElementById('error-msg');
+    const contentDiv = document.getElementById('protected-content');
+    const linksContainer = document.getElementById('handout-links');
 
-    // 針對密碼 "ylshmtw" 產生的原生混淆密文
-    const encryptedData = "ARsSABcxU0BAVkNCS1IWA1hWDRkTF1IHEAEGBwkHFA4fEAMKHBcAFlhWARkaEh8RBAxWUx0RFgwQBh8TBxQOHxAD";
-
-    function unlockContent() {
-      const passkey = document.getElementById('passkey').value.trim();
-      const errorMsg = document.getElementById('error-msg');
-      const contentDiv = document.getElementById('protected-content');
-      const linksContainer = document.getElementById('handout-links');
-
-      // 使用內建原生解密
-      const decryptedText = nativeDecrypt(encryptedData, passkey);
-
-      // 驗證解密結果是否為 JSON 陣列格式
-      if (decryptedText && decryptedText.trim().startsWith('[')) {
-        try {
-          const handouts = JSON.parse(decryptedText);
-          
-          linksContainer.innerHTML = "";
-          handouts.forEach(item => {
-            const div = document.createElement('div');
-            div.className = "handout-item";
-            div.innerHTML = `📄 <strong>${item.title}</strong> - <a href="${item.url}" target="_blank">點此下載 (PDF)</a>`;
-            linksContainer.appendChild(div);
-          });
-
-          contentDiv.style.display = "block";
-          errorMsg.style.display = "none";
-          return;
-        } catch (e) {}
-      }
-
-      // 解密失敗時顯示錯誤訊息
+    // 只要輸入 ylshmtw 就直接解鎖
+    if (passkey === "ylshmtw") {
+      linksContainer.innerHTML = `
+        <div class="handout-item">📄 <strong>第 01 週講義：數論入門.pdf</strong> - <a href="#" target="_blank">點此下載 (PDF)</a></div>
+        <div class="handout-item">📄 <strong>第 02 週講義：三角函數.pdf</strong> - <a href="#" target="_blank">點此下載 (PDF)</a></div>
+      `;
+      contentDiv.style.display = "block";
+      errorMsg.style.display = "none";
+    } else {
       errorMsg.style.display = "block";
       contentDiv.style.display = "none";
     }
-  </script>
+  }
+</script>
 
 </body>
 </html>
