@@ -150,7 +150,7 @@
 
   <!-- 分頁 1: 最新課表 -->
   <div id="schedule-page" class="page-section active">
-    <h2>以下是數讀會課表୧⃛(๑⃙⃘⁼̴̀⁼̴́๑⃙⃘)୨⃛</h2>
+    <h2>以下是數讀會課表</h2>
     <table>
       <thead>
         <tr>
@@ -194,9 +194,11 @@
             <select id="domain-filter" onchange="renderHandouts()">
               <option value="ALL">全部領域</option>
               <option value="代數">代數</option>
-              <option value="數論">數論</option>
+              <option value="組合">組合</option>
               <option value="幾何">幾何</option>
-              <option value="分析">分析/微積分</option>
+              <option value="數論">數論</option>
+              <option value="分析">分析</option>
+              <option value="其他">其他</option>
             </select>
           </div>
 
@@ -204,8 +206,8 @@
             <label>難度排序：</label>
             <select id="sort-order" onchange="renderHandouts()">
               <option value="DEFAULT">預設排序</option>
-              <option value="EASY_FIRST">難度：簡單 ➔ 困難</option>
-              <option value="HARD_FIRST">難度：困難 ➔ 簡單</option>
+              <option value="EASY_FIRST">簡單 ➔ 困難</option>
+              <option value="HARD_FIRST">困難 ➔ 簡單</option>
             </select>
           </div>
         </div>
