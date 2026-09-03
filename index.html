@@ -4,163 +4,307 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>宜中數學讀書會</title>
-<style>
-  body { 
-    font-family: Arial, sans-serif; 
-    max-width: 800px; 
-    margin: 30px auto; 
-    padding: 0 20px; 
-    line-height: 1.6;
-    color: #ffffff;
+  <style>
+    * { box-sizing: border-box; }
 
-    /* 關鍵：讀取你剛剛上傳的圖片檔名，並疊加半透明深色遮罩確保文字清晰 */
-    background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('bg.jpg');
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+    }
 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
+    /* 行動裝置防鍵盤跑位獨立背景層 */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url('-Pngtree--dynamic futuristic network abstract high_15270104.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
 
-  h1, h2 { color: #60a5fa; }
-  
-  /* 表格透明玻璃感 */
-  table { width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(255, 255, 255, 0.1); border-radius: 8px; overflow: hidden; backdrop-filter: blur(5px); }
-  th, td { border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px; text-align: left; }
-  th { background-color: rgba(30, 58, 138, 0.5); color: #93c5fd; }
-  
-  /* 卡片毛玻璃效果 */
-  .card { 
-    background: rgba(15, 23, 42, 0.75); 
-    border: 1px solid rgba(255, 255, 255, 0.2); 
-    padding: 20px; 
-    border-radius: 12px; 
-    margin-top: 20px; 
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  }
+    body { 
+      font-family: Arial, sans-serif; 
+      max-width: 850px; 
+      margin: 0 auto; 
+      padding: 30px 20px; 
+      line-height: 1.6;
+      color: #ffffff;
+    }
 
-  input[type="password"] { 
-    padding: 10px; 
-    width: 200px; 
-    margin-right: 10px; 
-    border-radius: 6px; 
-    border: 1px solid #475569;
-    background: rgba(255, 255, 255, 0.9);
-  }
+    h1, h2 { color: #60a5fa; }
+    
+    /* 頁頁切換導覽列 (Tabs) */
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 10px;
+    }
 
-  button { 
-    padding: 10px 18px; 
-    background-color: #2563eb; 
-    color: white; 
-    border: none; 
-    border-radius: 6px; 
-    cursor: pointer; 
-    font-weight: bold;
-  }
-  button:hover { background-color: #1d4ed8; }
+    .tab-btn {
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
 
-  .handout-list { margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
-  .handout-item { margin: 10px 0; font-size: 1.05em; }
-  .handout-item a { color: #38bdf8; text-decoration: none; font-weight: bold; }
-  .handout-item a:hover { text-decoration: underline; }
-</style>
+    .tab-btn.active, .tab-btn:hover {
+      background: #2563eb;
+      border-color: #3b82f6;
+    }
 
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    /* 表格樣式 */
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(255, 255, 255, 0.1); border-radius: 8px; overflow: hidden; backdrop-filter: blur(5px); }
+    th, td { border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px; text-align: left; }
+    th { background-color: rgba(30, 58, 138, 0.5); color: #93c5fd; }
+
+    /* 卡片與篩選器樣式 */
+    .card { 
+      background: rgba(15, 23, 42, 0.8); 
+      border: 1px solid rgba(255, 255, 255, 0.2); 
+      padding: 20px; 
+      border-radius: 12px; 
+      margin-top: 20px; 
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    select, input[type="password"] { 
+      padding: 8px 12px; 
+      border-radius: 6px; 
+      border: 1px solid #475569;
+      background: rgba(255, 255, 255, 0.9);
+      color: #000;
+      font-weight: bold;
+    }
+
+    button { 
+      padding: 8px 16px; 
+      background-color: #2563eb; 
+      color: white; 
+      border: none; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      font-weight: bold;
+    }
+    button:hover { background-color: #1d4ed8; }
+
+    .handout-item { 
+      margin: 12px 0; 
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .handout-item a { color: #38bdf8; text-decoration: none; font-weight: bold; }
+    .handout-item a:hover { text-decoration: underline; }
+    
+    .badge {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-left: 8px;
+      background: #3b82f6;
+    }
+    .stars { color: #facc15; }
+  </style>
 </head>
 <body>
 
   <h1>宜中數學讀書會</h1>
-  <p>數讀會網站上線啦！這裡提供最新的課表進度與講義下載</p>
-
-  <!-- 1. 課表區塊 -->
-  <h2>以下是數讀會課表୧⃛(๑⃙⃘⁼̴̀⁼̴́๑⃙⃘)୨⃛</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>日期</th>
-        <th>主題</th>
-        <th>講者</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>8/31</td>
-        <td>基礎數論</td>
-        <td>王璟舜</td>
-      </tr>
-      <tr>
-        <td>9/3</td>
-        <td>不等式</td>
-        <td>王璟舜</td>
-      </tr>
-      <tr>
-        <td>9/7</td>
-        <td>交比與調和</td>
-        <td>潘山神</td>
-      </tr>
-      <tr>
-        <td>9/9</td>
-        <td>(基礎)微積分</td>
-        <td>林鈺翔</td>
-      </tr>
-      <tr>
-        <td>9/14</td>
-        <td>形式和</td>
-        <td>王璟舜</td>
-      </tr>
-      <tr>
-        <td>9/16</td>
-        <td>四大積分法</td>
-        <td>陳鈺澔</td>
-      </tr>
-      <tr>
-        <td>9/21</td>
-        <td>看懂函方、做掉函方</td>
-        <td>王璟舜</td>
-      </tr>
-      <tr>
-        <td>9/23</td>
-        <td>敬請期待。</td>
-        <td>敬請期待。</td>
-      </tr>     
-    </tbody>
-  </table>
-
-  <!-- 2. 講義專區 -->
-  <h2>講義專區</h2>
-  <div class="card">
-    <p>輸入這禮拜的密碼：</p>
-    <input type="password" id="passkey" placeholder="山神說">
-    <button onclick="unlockContent()">載入講義</button>
-
-    <div id="protected-content" class="handout-list" style="display: none;">
-      <h3>全對！講義們：</h3>
-      <div id="handout-links"></div>
-    </div>
-    <p id="error-msg" style="color: red; display: none;">錯誤，請重新輸入！</p>
+  
+  <!-- 頁面跳轉標籤頁 -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchPage('schedule-page', this)">📅 最新課表</button>
+    <button class="tab-btn" onclick="switchPage('handout-page', this)">📚 講義庫存專區</button>
   </div>
 
-<script>
-  function unlockContent() {
-    const passkey = document.getElementById('passkey').value.trim();
-    const errorMsg = document.getElementById('error-msg');
-    const contentDiv = document.getElementById('protected-content');
-    const linksContainer = document.getElementById('handout-links');
+  <!-- 分頁 1: 最新課表 -->
+  <div id="schedule-page" class="page-section active">
+    <h2>以下是數讀會課表୧⃛(๑⃙⃘⁼̴̀⁼̴́๑⃙⃘)୨⃛</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>日期</th>
+          <th>主題</th>
+          <th>講者</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>8/31</td><td>基礎數論</td><td>王璟舜</td></tr>
+        <tr><td>9/3</td><td>不等式</td><td>王璟舜</td></tr>
+        <tr><td>9/7</td><td>交比與調和</td><td>潘山神</td></tr>
+        <tr><td>9/9</td><td>(基礎)微積分</td><td>林鈺翔</td></tr>
+        <tr><td>9/14</td><td>形式和</td><td>王璟舜</td></tr>
+        <tr><td>9/16</td><td>四大積分法</td><td>陳鈺澔</td></tr>
+        <tr><td>9/21</td><td>看懂函方、做掉函方</td><td>王璟舜</td></tr>
+        <tr><td>9/23</td><td>敬請期待。</td><td>敬請期待。</td></tr>      
+      </tbody>
+    </table>
+  </div>
 
-    // 只要輸入 ylshmtw 就直接解鎖
-    if (passkey === "ylshmtw") {
-      linksContainer.innerHTML = `
-        <div class="handout-item"><strong>8/31 講義：數論入門.pdf</strong> - <a href="https://drive.google.com/file/d/16PnsmJES5qG_V24EuqWVBSiwv-Bsti4u/view?usp=drivesdk" target="_blank">點我看講義</a></div>
-        <div class="handout-item"><strong>9/3 講義：不等式.pdf</strong> - <a href="https://drive.google.com/file/d/1-Ge7rdtjtWZIWNDFP6xEPhFR09R9vKVa/view?usp=drivesdk" target="_blank">點我看講義</a></div>
-      `;
-      contentDiv.style.display = "block";
-      errorMsg.style.display = "none";
-    } else {
-      errorMsg.style.display = "block";
-      contentDiv.style.display = "none";
+  <!-- 分頁 2: 講義庫存專區 -->
+  <div id="handout-page" class="page-section">
+    <h2>講義庫存專區</h2>
+    <div class="card">
+      <div id="auth-box">
+        <p>輸入這禮拜的密碼解鎖完整講義庫：</p>
+        <input type="password" id="passkey" placeholder="山神說">
+        <button onclick="unlockContent()">載入講義</button>
+        <p id="error-msg" style="color: #f87171; display: none; margin-top: 10px;">密碼錯誤，請重新輸入！</p>
+      </div>
+
+      <!-- 解鎖後顯示的篩選器與講義清單 -->
+      <div id="protected-content" style="display: none;">
+        <h3>全對！講義庫存列表：</h3>
+        
+        <!-- 領域篩選與難度排序 -->
+        <div class="filter-group">
+          <div>
+            <label>領域篩選：</label>
+            <select id="domain-filter" onchange="renderHandouts()">
+              <option value="ALL">全部領域</option>
+              <option value="代數">代數</option>
+              <option value="數論">數論</option>
+              <option value="幾何">幾何</option>
+              <option value="分析">分析/微積分</option>
+            </select>
+          </div>
+
+          <div>
+            <label>難度排序：</label>
+            <select id="sort-order" onchange="renderHandouts()">
+              <option value="DEFAULT">預設排序</option>
+              <option value="EASY_FIRST">難度：簡單 ➔ 困難</option>
+              <option value="HARD_FIRST">難度：困難 ➔ 簡單</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="handout-links"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 講義庫存資料庫 (可隨時自行擴充)
+    const handoutsData = [
+      {
+        title: "8/31 講義：數論入門.pdf",
+        domain: "數論",
+        difficulty: 2, // 1~5 顆星
+        url: "https://drive.google.com/file/d/16PnsmJES5qG_V24EuqWVBSiwv-Bsti4u/view?usp=drivesdk"
+      },
+      {
+        title: "9/3 講義：不等式.pdf",
+        domain: "代數",
+        difficulty: 3,
+        url: "https://drive.google.com/file/d/1-Ge7rdtjtWZIWNDFP6xEPhFR09R9vKVa/view?usp=drivesdk"
+      },
+      {
+        title: "9/7 講義：交比與調和.pdf",
+        domain: "幾何",
+        difficulty: 4,
+        url: "#"
+      },
+      {
+        title: "9/9 講義：(基礎)微積分.pdf",
+        domain: "分析",
+        difficulty: 3,
+        url: "#"
+      }
+    ];
+
+    // 頁面跳轉邏輯
+    function switchPage(pageId, btn) {
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(pageId).classList.add('active');
+      btn.classList.add('active');
     }
-  }
-</script>
+
+    // 密碼解鎖
+    function unlockContent() {
+      const passkey = document.getElementById('passkey').value.trim();
+      const errorMsg = document.getElementById('error-msg');
+      const authBox = document.getElementById('auth-box');
+      const contentDiv = document.getElementById('protected-content');
+
+      if (passkey === "ylshmtw") {
+        authBox.style.display = "none";
+        contentDiv.style.display = "block";
+        renderHandouts();
+      } else {
+        errorMsg.style.display = "block";
+      }
+    }
+
+    // 渲染與動態篩選講義清單
+    function renderHandouts() {
+      const domain = document.getElementById('domain-filter').value;
+      const sort = document.getElementById('sort-order').value;
+      const container = document.getElementById('handout-links');
+
+      // 1. 領域篩選
+      let list = handoutsData.filter(item => domain === 'ALL' || item.domain === domain);
+
+      // 2. 難度排序
+      if (sort === 'EASY_FIRST') {
+        list.sort((a, b) => a.difficulty - b.difficulty);
+      } else if (sort === 'HARD_FIRST') {
+        list.sort((a, b) => b.difficulty - a.difficulty);
+      }
+
+      // 3. 生成 HTML
+      if (list.length === 0) {
+        container.innerHTML = "<p>此分類目前無講義資料。</p>";
+        return;
+      }
+
+      container.innerHTML = list.map(item => {
+        const stars = '★'.repeat(item.difficulty) + '☆'.repeat(5 - item.difficulty);
+        return `
+          <div class="handout-item">
+            <div>
+              <strong>${item.title}</strong>
+              <span class="badge">${item.domain}</span>
+              <span class="stars" title="難度 ${item.difficulty}/5">${stars}</span>
+            </div>
+            <a href="${item.url}" target="_blank">點我看講義 ➔</a>
+          </div>
+        `;
+      }).join('');
+    }
+  </script>
 
 </body>
 </html>
