@@ -7,22 +7,33 @@
   <style>
     * { box-sizing: border-box; }
 
-    /* 關鍵：將背景設定在 html 上，並使用 fixed 鎖定全螢幕，解決頂部與底部漏白 */
-    html {
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
       min-height: 100%;
+    }
+
+    /* 修正圖片檔名為 bg.jpg，並固定滿版 */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
       background-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url('bg.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-color: #0f172a; /* 備用深色背景 */
     }
 
     body { 
-      margin: 0 auto;
-      padding: 30px 20px; 
-      max-width: 850px; 
       font-family: Arial, sans-serif; 
+      max-width: 850px; 
+      margin: 0 auto; 
+      padding: 30px 20px; 
       line-height: 1.6;
       color: #ffffff;
     }
