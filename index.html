@@ -223,23 +223,35 @@
       {
         title: "8/31 講義：數論入門.pdf",
         domain: "數論",
-        difficulty: 1,
+        difficulty: 2,
         url: "https://drive.google.com/file/d/16PnsmJES5qG_V24EuqWVBSiwv-Bsti4u/view?usp=drivesdk"
       },
       {
         title: "9/3 講義：不等式.pdf",
         domain: "代數",
-        difficulty: 2,
+        difficulty: 1,
         url: "https://drive.google.com/file/d/1-Ge7rdtjtWZIWNDFP6xEPhFR09R9vKVa/view?usp=drivesdk"
       },
       {
         title: "9/7 講義：交比與調和.pdf",
         domain: "幾何",
-        difficulty: 4,
+        difficulty: 3,
         url: "#"
       },
       {
         title: "9/9 講義：(基礎)微積分.pdf",
+        domain: "分析",
+        difficulty: 1,
+        url: "#"
+      }
+      {
+        title: "9/14 講義：形式和.pdf",
+        domain: "幾何",
+        difficulty: 2,
+        url: "#"
+      }
+      {
+        title: "9/16 講義：四大積分法.pdf",
         domain: "分析",
         difficulty: 3,
         url: "#"
@@ -291,7 +303,7 @@
       }
 
       container.innerHTML = list.map(item => {
-        const stars = '★'.repeat(item.difficulty) + '☆'.repeat(6 - item.difficulty);
+        const stars = '★'.repeat(item.difficulty) + '☆'.repeat(5 - item.difficulty);
         return `
           <div class="handout-item">
             <div>
