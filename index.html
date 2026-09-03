@@ -14,7 +14,7 @@
       min-height: 100%;
     }
 
-    /* 行動裝置防鍵盤跑位獨立背景層 */
+    /* 修正圖片檔名為 bg.jpg，並固定滿版 */
     body::before {
       content: "";
       position: fixed;
@@ -23,7 +23,7 @@
       width: 100vw;
       height: 100vh;
       z-index: -1;
-      background-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url('-Pngtree--dynamic futuristic network abstract high_15270104.jpg');
+      background-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url('bg.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -40,7 +40,7 @@
 
     h1, h2 { color: #60a5fa; }
     
-    /* 頁頁切換導覽列 (Tabs) */
+    /* 頁面切換標籤 (Tabs) */
     .nav-tabs {
       display: flex;
       gap: 10px;
@@ -69,7 +69,7 @@
     .page-section.active { display: block; }
 
     /* 表格樣式 */
-    table { width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(255, 255, 255, 0.1); border-radius: 8px; overflow: hidden; backdrop-filter: blur(5px); }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(255, 255, 255, 0.1); border-radius: 8px; overflow: hidden; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
     th, td { border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px; text-align: left; }
     th { background-color: rgba(30, 58, 138, 0.5); color: #93c5fd; }
 
@@ -81,6 +81,7 @@
       border-radius: 12px; 
       margin-top: 20px; 
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
 
@@ -215,12 +216,12 @@
   </div>
 
   <script>
-    // 講義庫存資料庫 (可隨時自行擴充)
+    // 講義庫存資料庫
     const handoutsData = [
       {
         title: "8/31 講義：數論入門.pdf",
         domain: "數論",
-        difficulty: 2, // 1~5 顆星
+        difficulty: 2,
         url: "https://drive.google.com/file/d/16PnsmJES5qG_V24EuqWVBSiwv-Bsti4u/view?usp=drivesdk"
       },
       {
@@ -243,7 +244,7 @@
       }
     ];
 
-    // 頁面跳轉邏輯
+    // 頁面切換邏輯
     function switchPage(pageId, btn) {
       document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -268,23 +269,20 @@
       }
     }
 
-    // 渲染與動態篩選講義清單
+    // 動態篩選講義清單
     function renderHandouts() {
       const domain = document.getElementById('domain-filter').value;
       const sort = document.getElementById('sort-order').value;
       const container = document.getElementById('handout-links');
 
-      // 1. 領域篩選
       let list = handoutsData.filter(item => domain === 'ALL' || item.domain === domain);
 
-      // 2. 難度排序
       if (sort === 'EASY_FIRST') {
         list.sort((a, b) => a.difficulty - b.difficulty);
       } else if (sort === 'HARD_FIRST') {
         list.sort((a, b) => b.difficulty - a.difficulty);
       }
 
-      // 3. 生成 HTML
       if (list.length === 0) {
         container.innerHTML = "<p>此分類目前無講義資料。</p>";
         return;
