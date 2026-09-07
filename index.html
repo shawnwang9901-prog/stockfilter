@@ -14,7 +14,7 @@
       min-height: 100%;
     }
 
-    /* 修正圖片檔名為 bg.jpg，並固定滿版 */
+    /* 固定背景圖 */
     body::before {
       content: "";
       position: fixed;
@@ -218,48 +218,48 @@
   </div>
 
   <script>
-    // 講義庫存資料庫
+    // 講義庫存資料庫 (難度欄位現已支援小數點，如 1.5、2.5、3.5)
     const handoutsData = [
       {
         title: "8/31 講義：數論入門.pdf",
         domain: "數論",
-        difficulty: 2,
+        difficulty: 1.5,
         url: "https://drive.google.com/file/d/16PnsmJES5qG_V24EuqWVBSiwv-Bsti4u/view?usp=drivesdk"
       },
       {
         title: "9/3 講義：不等式.pdf",
         domain: "代數",
-        difficulty: 1,
+        difficulty: 0.5,
         url: "https://drive.google.com/file/d/1-Ge7rdtjtWZIWNDFP6xEPhFR09R9vKVa/view?usp=drivesdk"
       },
       {
         title: "9/7 講義：交比.pdf",
         domain: "幾何",
-        difficulty: 0,
-        url: "https://drive.google.com/file/d/1r1uCend3_tuBanPvKDtVg-AVowFE2vd4/view?usp=drivesdk"
+        difficulty: 1,
+        url: "#"
       },
       {
         title: "9/9 講義：(基礎)微積分.pdf",
         domain: "分析",
-        difficulty: 1,
+        difficulty: 2.5,
         url: "#"
       },
       {
         title: "9/14 講義：形式和.pdf",
         domain: "幾何",
-        difficulty: 3,
+        difficulty: 2,
         url: "#"
       },
       {
         title: "9/16 講義：四大積分法.pdf",
         domain: "分析",
-        difficulty: 3,
+        difficulty: 3.5,
         url: "#"
       },
       {
         title: "9/21 講義：處理函方的常用做法.pdf",
         domain: "代數",
-        difficulty: 2,
+        difficulty: 2.5,
         url: "#"
       }
     ];
@@ -289,6 +289,21 @@
       }
     }
 
+    // 計算半星與全星的字串生成函式
+    function getStarRating(rating) {
+      const fullStars = Math.floor(rating);
+      const hasHalfStar = rating % 1 !== 0;
+      const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+      const fullSymbol = '★';
+      const halfSymbol = '⯨'; // 左半黑星符號
+      const emptySymbol = '☆';
+
+      return fullSymbol.repeat(fullStars) + 
+             (hasHalfStar ? halfSymbol : '') + 
+             emptySymbol.repeat(emptyStars);
+    }
+
     // 動態篩選講義清單
     function renderHandouts() {
       const domain = document.getElementById('domain-filter').value;
@@ -309,7 +324,7 @@
       }
 
       container.innerHTML = list.map(item => {
-        const stars = '★'.repeat(item.difficulty) + '☆'.repeat(5 - item.difficulty);
+        const stars = getStarRating(item.difficulty);
         return `
           <div class="handout-item">
             <div>
