@@ -135,7 +135,28 @@
       margin-left: 8px;
       background: #3b82f6;
     }
-    .stars { color: #facc15; }
+
+    /* CSS 跨平台半星與全星處理 */
+    .stars {
+      display: inline-flex;
+      margin-left: 8px;
+      vertical-align: middle;
+      font-size: 1.1em;
+    }
+
+    .star {
+      color: #475569; /* 空心底色 (灰) */
+    }
+
+    .star.full {
+      color: #facc15; /* 實心色 (黃) */
+    }
+
+    .star.half {
+      background: linear-gradient(90deg, #facc15 50%, #475569 50%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   </style>
 </head>
 <body>
@@ -218,7 +239,7 @@
   </div>
 
   <script>
-    // 講義庫存資料庫 (難度欄位現已支援小數點，如 1.5、2.5、3.5)
+    // 講義庫存資料庫 (難度支援小數點，如 0.5, 1.5, 2.5, 3.5)
     const handoutsData = [
       {
         title: "8/31 講義：數論入門.pdf",
@@ -289,19 +310,24 @@
       }
     }
 
-    // 計算半星與全星的字串生成函式
+    // 動態渲染 HTML 星星 (結合 CSS 解決豆腐塊亂碼)
     function getStarRating(rating) {
       const fullStars = Math.floor(rating);
       const hasHalfStar = rating % 1 !== 0;
       const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
-      const fullSymbol = '★';
-      const halfSymbol = '⯨'; // 左半黑星符號
-      const emptySymbol = '☆';
+      let html = '';
+      for (let i = 0; i < fullStars; i++) {
+        html += '<span class="star full">★</span>';
+      }
+      if (hasHalfStar) {
+        html += '<span class="star half">★</span>';
+      }
+      for (let i = 0; i < emptyStars; i++) {
+        html += '<span class="star">★</span>';
+      }
 
-      return fullSymbol.repeat(fullStars) + 
-             (hasHalfStar ? halfSymbol : '') + 
-             emptySymbol.repeat(emptyStars);
+      return html;
     }
 
     // 動態篩選講義清單
@@ -324,13 +350,13 @@
       }
 
       container.innerHTML = list.map(item => {
-        const stars = getStarRating(item.difficulty);
+        const starsHtml = getStarRating(item.difficulty);
         return `
           <div class="handout-item">
             <div>
               <strong>${item.title}</strong>
               <span class="badge">${item.domain}</span>
-              <span class="stars" title="難度 ${item.difficulty}/5">${stars}</span>
+              <span class="stars" title="難度 ${item.difficulty}/5">${starsHtml}</span>
             </div>
             <a href="${item.url}" target="_blank">點我看講義 ➔</a>
           </div>
